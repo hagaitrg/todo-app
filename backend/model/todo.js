@@ -37,6 +37,19 @@ Todo.getById() = (id, result) => {
     })
 }
 
+Todo.getAll() = (result)=>{
+    sql.query("SELECT * FROM todo", (err,res)=>{
+        if (err) {
+            console.log("error:", err);
+            result(null,err);
+            return;
+        }
+
+        console.log("todo", res);
+        result(null,res);
+    })
+}
+
 Todo.update = (id, todo, result) => {
     sql.query(
         "UPDATE todo SET task = ?, is_done = ?, updated_at = ? WHERE id = ?",
