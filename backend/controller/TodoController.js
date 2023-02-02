@@ -1,6 +1,8 @@
-const e = require("express");
-
-const Todo = reuire('../model/todo');
+const Todo = require('../model/todo.js');
+const { 
+    v1: uuidv1,
+    v4: uuidv4,
+} = require('uuid');
 
 exports.index = (req, res) => {
     Todo.getAll((err,data)=>{
@@ -25,11 +27,11 @@ exports.store = (req,res)=>{
     }
 
     const todo = new Todo({
+        id : uuidv4(),
         task:req.body.task,
-        is_done:false,
-        created_at: Date.now(),
-        updated_at: Date.now()
+        is_done: false,
     });
+
 
     Todo.create(todo, (err,data)=>{
         if (err) {
@@ -89,7 +91,7 @@ exports.update = (req,res)=>{
                 }
             }else{
                 res.status(200).send({
-                    message: "Successfully get Todo with id " + req.params.id,
+                    message: "Successfully update Todo with id " + req.params.id,
                     data:data
                 })
             }

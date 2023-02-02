@@ -1,6 +1,7 @@
-const sql = require('./db');
+const sql = require('./db.js');
 
-const Todo = (todo) => {
+const Todo = function (todo)  {
+    this.id = todo.id;
     this.task = todo.task;
     this.is_done = todo.is_done;
     this.created_at = todo.created_at;
@@ -19,8 +20,8 @@ Todo.create = (newTodo, result) => {
     })
 }
 
-Todo.getById() = (id, result) => {
-    sql.query(`SELECT * FROM todo WHERE id = ${id}`, (err, res) => {
+Todo.getById = (id, result) => {
+    sql.query(`SELECT * FROM todo WHERE id = "${id}"`, (err, res) => {
         if (err) {
             console.log("error:", err);
             result(err, null);
@@ -37,7 +38,7 @@ Todo.getById() = (id, result) => {
     })
 }
 
-Todo.getAll() = (result)=>{
+Todo.getAll = (result)=>{
     sql.query("SELECT * FROM todo", (err,res)=>{
         if (err) {
             console.log("error:", err);
@@ -52,7 +53,7 @@ Todo.getAll() = (result)=>{
 
 Todo.update = (id, todo, result) => {
     sql.query(
-        "UPDATE todo SET task = ?, is_done = ?, updated_at = ? WHERE id = ?",
+        `UPDATE todo SET task = ?, is_done = ? WHERE id = "${id}"`,
         [todo.task, todo.is_done, todo.updated_at, id], (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -72,7 +73,7 @@ Todo.update = (id, todo, result) => {
 }
 
 Todo.delete = (id, result) => {
-    sql.query("DELETE FROM todo WHERE id = ?", id, (err, res) => {
+    sql.query(`DELETE FROM todo WHERE id="${id}"`, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err)
@@ -88,3 +89,5 @@ Todo.delete = (id, result) => {
         result(null, res);
     })
 }
+
+module.exports = Todo;

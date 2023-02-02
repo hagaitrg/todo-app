@@ -17,6 +17,9 @@ app.get("/", (req,res)=>{
     res.json({message:"Welcome to hagai's todo app"});
 })
 
+const todoRoute = require('./routes/todo')
+app.use("/api/v1/todos", todoRoute)
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, ()=>{
     console.log(`Server is running on port ${PORT}`);
